@@ -44,6 +44,7 @@
         "category-3": {
           "type": "category-card",
           "settings": {
+            "image": "shopify://shop_images/category-3.jpg",
             "title": "Accessories",
             "link": ""
           },

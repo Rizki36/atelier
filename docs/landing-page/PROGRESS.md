@@ -5,7 +5,7 @@ Request review before next step
 
 # Progress
 
-- [ ] Header (@docs/landing-page/STEP-1.md)
+- [x] Header (@docs/landing-page/STEP-1.md)
 - [ ] Hero (@docs/landing-page/STEP-2.md)
 - [ ] Currated Categories (@docs/landing-page/STEP-3.md)
 - [ ] Trending Now (@docs/landing-page/STEP-4.md)

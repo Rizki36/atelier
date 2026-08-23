@@ -5,6 +5,14 @@
     {% render 'css-variables' %}
 
     {% comment %}
+      Atelier brand fonts (Playfair Display + DM Sans) are fixed, not
+      merchant-editable via settings.type_primary_font.
+    {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    {% comment %}
       Font preloading:
       1. Preconnect to font CDN for faster connection
       2. Preload only the critical font variant (base weight)

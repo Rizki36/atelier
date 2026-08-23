@@ -1,4 +1,13 @@
 {
+  "general": {
+    "accessibility": {
+      "search": "Search",
+      "cart": "Cart",
+      "account": "Account",
+      "menu": "Menu",
+      "close": "Close"
+    }
+  },
   "404": {
     "title": "404",
     "not_found": "Page not found.",

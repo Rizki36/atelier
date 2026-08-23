@@ -14,5 +14,52 @@
     --color-background: {{ settings.background_color }};
     --color-foreground: {{ settings.foreground_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+
+    {% # Atelier design tokens (see DESIGN.md). Merchant-editable tones come from settings; %}
+    {% # supporting tones are fixed to keep the tonal system consistent. %}
+    --color-primary: {{ settings.primary_color }};
+    --color-on-primary: #ffffff;
+    --color-primary-container: #1b1b1b;
+    --color-on-primary-container: #848484;
+    --color-secondary: {{ settings.secondary_color }};
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: {{ settings.secondary_container_color }};
+    --color-on-secondary-container: #656461;
+    --color-tertiary: #000000;
+    --color-on-tertiary: #ffffff;
+    --color-surface: {{ settings.background_color }};
+    --color-surface-dim: #dadada;
+    --color-surface-bright: {{ settings.background_color }};
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f3f3f4;
+    --color-surface-container: #eeeeee;
+    --color-surface-container-high: #e8e8e8;
+    --color-surface-container-highest: #e2e2e2;
+    --color-on-surface: {{ settings.foreground_color }};
+    --color-on-surface-variant: #4c4546;
+    --color-outline: {{ settings.outline_color }};
+    --color-outline-variant: #cfc4c5;
+    --color-inverse-surface: #2f3131;
+    --color-inverse-on-surface: #f0f1f1;
+    --color-header-scrim: {{ settings.background_color | color_modify: 'alpha', 0.9 }};
+
+    --font-headline: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --spacing-unit: 8px;
+    --spacing-gutter: 24px;
+    --spacing-margin-mobile: 20px;
+    --spacing-section-gap: 120px;
+
+    --radius: 0px;
+    --icon-stroke-width: 1.5;
+    --motion-fade: 200ms ease;
+    --header-height: 80px;
+  }
+
+  @media (max-width: 767px) {
+    :root {
+      --page-margin: var(--spacing-margin-mobile);
+    }
   }
 {% endstyle %}

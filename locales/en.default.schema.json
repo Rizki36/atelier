@@ -46,6 +46,11 @@
     "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
+    "primary_color": "Primary",
+    "secondary_color": "Secondary",
+    "secondary_container_color": "Secondary container",
+    "outline_color": "Outline",
+    "logo": "Logo",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
     "text": "Text"

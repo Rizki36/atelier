@@ -49,7 +49,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:labels.page_margin",
-        "default": 20
+        "default": 64
       }
     ]
   },
@@ -59,14 +59,38 @@
       {
         "type": "color",
         "id": "background_color",
-        "default": "#FFFFFF",
+        "default": "#F9F9F9",
         "label": "t:labels.background"
       },
       {
         "type": "color",
         "id": "foreground_color",
-        "default": "#333333",
+        "default": "#1A1C1C",
         "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "primary_color",
+        "default": "#000000",
+        "label": "t:labels.primary_color"
+      },
+      {
+        "type": "color",
+        "id": "secondary_color",
+        "default": "#5F5E5B",
+        "label": "t:labels.secondary_color"
+      },
+      {
+        "type": "color",
+        "id": "secondary_container_color",
+        "default": "#E5E2DD",
+        "label": "t:labels.secondary_container_color"
+      },
+      {
+        "type": "color",
+        "id": "outline_color",
+        "default": "#7E7576",
+        "label": "t:labels.outline_color"
       },
       {
         "type": "range",
@@ -76,7 +100,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:labels.input_corner_radius",
-        "default": 4
+        "default": 0
       }
     ]
   }

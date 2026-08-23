@@ -1,5 +1,5 @@
 From @docs/landing-page/wireframe.html create landing page
-Read @DESIGN.md for design guidelines
+Read @DESIGN.md for design guidelines and make it mobile responsive
 Every step should be documented in @docs/landing-page/STEP-*.md
 Request review before next step
 

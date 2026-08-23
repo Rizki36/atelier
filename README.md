@@ -1,16 +1,11 @@
 <h1 align="center" style="position: relative;">
   <br>
-    <img src="./assets/shoppy-x-ray.svg" alt="logo" width="200">
+    <img src="./assets/atelier_logo.png" alt="logo" width="200">
   <br>
-  Shopify Skeleton Theme
+  Atelier Shopify Theme
 </h1>
 
-A minimal, carefully structured Shopify theme designed to help you quickly get started. Designed with modularity, maintainability, and Shopify's best practices in mind.
-
-<p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
-  <a href="./actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Shopify/skeleton-theme/actions/workflows/ci.yml/badge.svg"></a>
-</p>
+Atelier is a premium, minimalist Shopify theme meticulously crafted for luxury brands that aim to elevate their visual identity and deliver a seamless, high-end online shopping experience.
 
 ## Getting started
 
@@ -26,12 +21,10 @@ If you use VS Code:
 
 ### Clone
 
-Clone this repository using Git or Shopify CLI:
+Clone this repository using Git:
 
 ```bash
-git clone git@github.com:Shopify/skeleton-theme.git
-# or
-shopify theme init
+git clone git@github.com:Rizki36/atelier.git
 ```
 
 ### Preview

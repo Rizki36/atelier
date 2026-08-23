@@ -1,0 +1,157 @@
+{% comment %}
+  Renders the homepage hero: a full-bleed background image behind a
+  left-aligned translucent content panel (eyebrow, headline, body, CTA).
+{% endcomment %}
+
+<section class="hero full-width" aria-labelledby="hero-heading">
+  {% if section.settings.image %}
+    <div class="hero__background">
+      {% render 'image', image: section.settings.image, class: 'hero__background-image', width: 2000 %}
+    </div>
+  {% endif %}
+
+  <div class="hero__content">
+    <div class="hero__panel">
+      {% if section.settings.eyebrow != blank %}
+        <span class="hero__eyebrow text-label-caps">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+
+      <h1 id="hero-heading" class="hero__heading text-display-lg">
+        {{ section.settings.heading | newline_to_br }}
+      </h1>
+
+      {% if section.settings.body != blank %}
+        <div class="hero__body text-body-lg">{{ section.settings.body }}</div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        {% render 'button', label: section.settings.button_label, url: section.settings.button_link, style: 'primary', class: 'hero__cta' %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 85vh;
+    min-height: 600px;
+    background: var(--color-surface);
+  }
+
+  .hero__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__background-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__background-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.9;
+    mix-blend-mode: multiply;
+    filter: contrast(1.25) saturate(0.5);
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: var(--content-grid);
+    align-items: center;
+    height: 100%;
+  }
+
+  .hero__content > * {
+    grid-column: 2;
+  }
+
+  .hero__panel {
+    max-width: 672px;
+    padding: 32px;
+    background: var(--color-surface-glass);
+    border: 1px solid var(--color-outline-variant-glass);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  @media (min-width: 768px) {
+    .hero__panel {
+      padding: 48px;
+    }
+  }
+
+  .hero__eyebrow {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--color-on-surface);
+  }
+
+  .hero__heading {
+    margin-bottom: 24px;
+    color: var(--color-on-surface);
+  }
+
+  .hero__body {
+    max-width: 28rem;
+    margin-bottom: 40px;
+    color: var(--color-on-surface-variant);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "New Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "The Art of\nSimplicity"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "<p>Elevated essentials designed for the modern wardrobe. Focusing on structural clarity and quiet luxury.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero"
+    }
+  ]
+}
+{% endschema %}

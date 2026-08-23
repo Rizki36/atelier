@@ -27,6 +27,8 @@
     --color-on-secondary-container: #656461;
     --color-tertiary: #000000;
     --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #1b1c1c;
+    --color-on-tertiary-container: #848484;
     --color-surface: {{ settings.background_color }};
     --color-surface-dim: #dadada;
     --color-surface-bright: {{ settings.background_color }};
@@ -42,6 +44,8 @@
     --color-inverse-surface: #2f3131;
     --color-inverse-on-surface: #f0f1f1;
     --color-header-scrim: {{ settings.background_color | color_modify: 'alpha', 0.9 }};
+    --color-surface-glass: {{ settings.background_color | color_modify: 'alpha', 0.4 }};
+    --color-outline-variant-glass: {{ '#cfc4c5' | color_modify: 'alpha', 0.3 }};
 
     --font-headline: 'Playfair Display', serif;
     --font-body: 'DM Sans', sans-serif;

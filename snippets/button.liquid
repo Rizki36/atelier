@@ -1,0 +1,62 @@
+{% doc %}
+  Renders a button-styled link (or a plain button if no url is given).
+
+  @param {string} label - Visible button text
+  @param {string} [url] - Destination URL; renders <button type="button"> if omitted
+  @param {string} [style] - 'primary' (default) or 'secondary'
+  @param {string} [class] - Additional classes to append
+
+  @example
+  {% render 'button', label: 'Shop the collection', url: '/collections/all' %}
+  {% render 'button', label: 'Read the journal', url: '/blogs/journal', style: 'secondary' %}
+{% enddoc %}
+
+{% liquid
+  assign style = style | default: 'primary'
+  assign button_class = 'button button--' | append: style
+  if class
+    assign button_class = button_class | append: ' ' | append: class
+  endif
+%}
+
+{% if url %}
+  <a href="{{ url }}" class="{{ button_class }} text-label-caps">{{ label }}</a>
+{% else %}
+  <button type="button" class="{{ button_class }} text-label-caps">{{ label }}</button>
+{% endif %}
+
+{% stylesheet %}
+  .button {
+    display: inline-block;
+    padding: 16px 40px;
+    border-radius: var(--radius);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-fade),
+      color var(--motion-fade);
+  }
+
+  .button--primary {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border: 1px solid var(--color-primary);
+  }
+
+  .button--primary:hover {
+    background: var(--color-tertiary-container);
+    border-color: var(--color-tertiary-container);
+  }
+
+  .button--secondary {
+    background: transparent;
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-primary);
+  }
+
+  .button--secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+{% endstylesheet %}

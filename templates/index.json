@@ -23,12 +23,43 @@
     "categories": {
       "type": "curated-categories",
       "blocks": {
-        "category-1": { "type": "category-card", "settings": { "title": "Outerwear" } },
-        "category-2": { "type": "category-card", "settings": { "title": "Essentials" } },
-        "category-3": { "type": "category-card", "settings": { "title": "Accessories" } }
+        "category-1": {
+          "type": "category-card",
+          "settings": {
+            "image": "shopify://shop_images/category-1.jpg",
+            "title": "Outerwear",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "category-2": {
+          "type": "category-card",
+          "settings": {
+            "image": "shopify://shop_images/category-2.jpg",
+            "title": "Essentials",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "category-3": {
+          "type": "category-card",
+          "settings": {
+            "title": "Accessories",
+            "link": ""
+          },
+          "blocks": {}
+        }
       },
-      "block_order": ["category-1", "category-2", "category-3"],
-      "settings": {}
+      "block_order": [
+        "category-1",
+        "category-2",
+        "category-3"
+      ],
+      "settings": {
+        "heading": "Curated Categories",
+        "explore_all_label": "Explore All",
+        "explore_all_link": "shopify://collections/all"
+      }
     }
   },
   "order": [

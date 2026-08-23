@@ -19,20 +19,24 @@
           "settings": {
             "heading": "Information",
             "menu": "footer"
-          }
+          },
+          "blocks": {}
         },
         "follow-us": {
           "type": "footer-link-column",
           "settings": {
             "heading": "Follow Us",
-            "menu": ""
-          }
+            "menu": "follow-us-menu"
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["information", "follow-us"],
+      "block_order": [
+        "information",
+        "follow-us"
+      ],
       "settings": {
-        "newsletter_heading": "Newsletter",
-        "logo": ""
+        "newsletter_heading": "Newsletter"
       }
     }
   },

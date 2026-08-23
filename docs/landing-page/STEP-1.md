@@ -57,4 +57,4 @@ All new — this is the first step, so it also carries the foundational token wo
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

@@ -43,6 +43,7 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
+    "trending_now": "Trending Now",
     "typography": "Typography"
   },
   "labels": {
@@ -53,6 +54,7 @@
     "button_link": "Button link",
     "category_link": "Link",
     "category_title": "Category name",
+    "collection": "Collection",
     "explore_all_label": "\"Explore all\" label",
     "explore_all_link": "\"Explore all\" link",
     "eyebrow": "Eyebrow",
@@ -69,6 +71,7 @@
     "page_margin": "Page margin",
     "page_width": "Page width",
     "primary_color": "Primary",
+    "product_limit": "Number of products",
     "secondary_color": "Secondary",
     "secondary_container_color": "Secondary container",
     "outline_color": "Outline",
@@ -99,6 +102,6 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
   }
 }

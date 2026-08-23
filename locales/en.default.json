@@ -14,8 +14,14 @@
       "cart": "Cart",
       "account": "Account",
       "menu": "Menu",
-      "close": "Close"
+      "close": "Close",
+      "previous": "Previous items",
+      "next": "Next items",
+      "add_to_wishlist": "Add to wishlist"
     }
+  },
+  "products": {
+    "new_badge": "New"
   },
   "404": {
     "title": "404",

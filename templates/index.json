@@ -61,10 +61,19 @@
         "explore_all_label": "Explore All",
         "explore_all_link": "shopify://collections/all"
       }
+    },
+    "trending": {
+      "type": "trending-now",
+      "settings": {
+        "heading": "Trending Now",
+        "collection": "all",
+        "product_limit": 8
+      }
     }
   },
   "order": [
     "hero",
-    "categories"
+    "categories",
+    "trending"
   ]
 }

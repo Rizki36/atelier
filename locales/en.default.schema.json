@@ -27,6 +27,7 @@
     "feature_item": "Feature",
     "fonts": "Fonts",
     "footer": "Footer",
+    "footer_link_column": "Link column",
     "group": "Group",
     "header": "Header",
     "hero": "Hero",
@@ -81,7 +82,6 @@
     "secondary_container_color": "Secondary container",
     "outline_color": "Outline",
     "logo": "Logo",
-    "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
     "text": "Text"
   },

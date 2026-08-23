@@ -13,9 +13,26 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "information": {
+          "type": "footer-link-column",
+          "settings": {
+            "heading": "Information",
+            "menu": "footer"
+          }
+        },
+        "follow-us": {
+          "type": "footer-link-column",
+          "settings": {
+            "heading": "Follow Us",
+            "menu": ""
+          }
+        }
+      },
+      "block_order": ["information", "follow-us"],
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "newsletter_heading": "Newsletter",
+        "logo": ""
       }
     }
   },

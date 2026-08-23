@@ -18,6 +18,15 @@
       "previous": "Previous items",
       "next": "Next items",
       "add_to_wishlist": "Add to wishlist"
+    },
+    "footer": {
+      "copyright_html": "&copy; {{ year }} {{ shop }}. All rights reserved."
+    },
+    "newsletter": {
+      "email_label": "Email address",
+      "email_placeholder": "Email address",
+      "submit": "Join",
+      "success": "Thank you for subscribing."
     }
   },
   "products": {

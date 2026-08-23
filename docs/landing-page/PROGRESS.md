@@ -10,4 +10,4 @@ Request review before next step
 - [x] Currated Categories (@docs/landing-page/STEP-3.md)
 - [x] Trending Now (@docs/landing-page/STEP-4.md)
 - [x] Designed for Intentional Living (@docs/landing-page/STEP-5.md)
-- [ ] Footer (@docs/landing-page/STEP-6.md)
+- [x] Footer (@docs/landing-page/STEP-6.md)

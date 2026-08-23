@@ -97,6 +97,7 @@
         "feature-2"
       ],
       "settings": {
+        "image": "shopify://shop_images/women.jpg",
         "heading": "Designed for Intentional Living",
         "body": "<p>Our design philosophy strips away the unnecessary, focusing entirely on structural integrity and the pure beauty of premium materials. Each piece is a quiet statement of confidence.</p>",
         "button_label": "Read the Journal",

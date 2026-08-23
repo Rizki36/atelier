@@ -52,4 +52,4 @@ None — this step consumes `.text-headline-md`/`.text-headline-sm`/`.text-label
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

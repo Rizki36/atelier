@@ -65,4 +65,4 @@ One: `--color-secondary-container-glass` in `snippets/css-variables.liquid` (see
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

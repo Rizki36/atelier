@@ -57,4 +57,4 @@ No new spacing/typography tokens were needed — the Hero consumes `.text-displa
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

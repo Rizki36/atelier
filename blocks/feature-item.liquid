@@ -1,0 +1,83 @@
+{% doc %}
+  Renders a single icon + title + description row for a feature list.
+
+  @example
+  {% content_for 'block', type: 'feature-item', id: 'feature-item' %}
+{% enddoc %}
+
+<div class="feature-item" {{ block.shopify_attributes }}>
+  <span class="feature-item__icon" aria-hidden="true">
+    {% case block.settings.icon %}
+      {% when 'precision' %}
+        {{ 'icon-precision.svg' | inline_asset_content }}
+      {% when 'texture' %}
+        {{ 'icon-texture.svg' | inline_asset_content }}
+    {% endcase %}
+  </span>
+  <div class="feature-item__text">
+    <h4 class="feature-item__title text-label-caps">{{ block.settings.title }}</h4>
+    <p class="feature-item__description text-label-sm">{{ block.settings.description }}</p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+  }
+
+  .feature-item__icon {
+    display: flex;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    color: var(--color-outline);
+  }
+
+  .feature-item__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .feature-item__title {
+    color: var(--color-on-surface);
+    margin-bottom: 4px;
+  }
+
+  .feature-item__description {
+    color: var(--color-on-surface-variant);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.feature_item",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:labels.icon",
+      "options": [
+        { "value": "precision", "label": "Precision" },
+        { "value": "texture", "label": "Texture" }
+      ],
+      "default": "precision"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.feature_title",
+      "default": "Structural Precision"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:labels.feature_description",
+      "default": "Tailored with exactness to maintain form."
+    }
+  ]
+}
+{% endschema %}

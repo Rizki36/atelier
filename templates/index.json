@@ -69,11 +69,45 @@
         "collection": "all",
         "product_limit": 8
       }
+    },
+    "story": {
+      "type": "intentional-living",
+      "blocks": {
+        "feature-1": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "precision",
+            "title": "Structural Precision",
+            "description": "Tailored with exactness to maintain form."
+          },
+          "blocks": {}
+        },
+        "feature-2": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "texture",
+            "title": "Tactile Materials",
+            "description": "Sourced for durability and sensual feel."
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "feature-1",
+        "feature-2"
+      ],
+      "settings": {
+        "heading": "Designed for Intentional Living",
+        "body": "<p>Our design philosophy strips away the unnecessary, focusing entirely on structural integrity and the pure beauty of premium materials. Each piece is a quiet statement of confidence.</p>",
+        "button_label": "Read the Journal",
+        "button_link": ""
+      }
     }
   },
   "order": [
     "hero",
     "categories",
-    "trending"
+    "trending",
+    "story"
   ]
 }

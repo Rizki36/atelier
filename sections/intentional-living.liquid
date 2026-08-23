@@ -1,0 +1,192 @@
+{% comment %}
+  Renders a static brand-philosophy section: an editorial image with a
+  decorative offset block, paired with a heading, body copy, a short
+  feature list, and a secondary CTA. Column order swaps between mobile
+  (image first) and desktop (content first, image right).
+{% endcomment %}
+
+<section class="story" aria-labelledby="story-heading">
+  <div class="story__grid">
+    <div class="story__media">
+      {% if section.settings.image %}
+        {% render 'image', image: section.settings.image, class: 'story__image', width: 900 %}
+      {% endif %}
+      <div class="story__decoration" aria-hidden="true"></div>
+    </div>
+
+    <div class="story__content">
+      <h2 id="story-heading" class="story__heading text-headline-md">{{ section.settings.heading }}</h2>
+
+      {% if section.settings.body != blank %}
+        <div class="story__body text-body-md">{{ section.settings.body }}</div>
+      {% endif %}
+
+      <div class="story__features">
+        {% content_for 'blocks' %}
+      </div>
+
+      {% if section.settings.button_label != blank %}
+        {% render 'button', label: section.settings.button_label, url: section.settings.button_link, style: 'secondary', class: 'story__cta' %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .story {
+    padding-block: var(--spacing-section-gap);
+  }
+
+  .story__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-gutter);
+    align-items: center;
+  }
+
+  .story__media {
+    order: 1;
+    position: relative;
+  }
+
+  .story__content {
+    order: 2;
+  }
+
+  .story__image {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    height: auto;
+    background: var(--color-surface-container);
+  }
+
+  .story__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.75);
+  }
+
+  .story__decoration {
+    display: none;
+  }
+
+  .story__heading {
+    color: var(--color-on-surface);
+    margin-bottom: 24px;
+  }
+
+  .story__body {
+    color: var(--color-on-surface-variant);
+    margin-bottom: 32px;
+  }
+
+  .story__features {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 48px;
+  }
+
+  /* content_for 'blocks' wraps each block in its own .shopify-block div, so
+     :first-child/:not(:first-child) on .feature-item itself never matches;
+     target the wrapper instead (same fix as curated-categories' :nth-child rule). */
+  .story__features > * + * .feature-item {
+    padding-top: 24px;
+  }
+
+  .story__features > * + * .feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .story__cta {
+    display: inline-block;
+  }
+
+  @media (min-width: 768px) {
+    .story__grid {
+      grid-template-columns: 5fr 6fr;
+      gap: calc(var(--spacing-gutter) * 2);
+    }
+
+    .story__media {
+      order: 2;
+    }
+
+    .story__content {
+      order: 1;
+      padding-right: 24px;
+    }
+
+    .story__decoration {
+      display: block;
+      position: absolute;
+      z-index: 0;
+      bottom: -32px;
+      right: -32px;
+      width: 66%;
+      height: 66%;
+      background: var(--color-secondary-container);
+      opacity: 0.5;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.intentional_living",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Designed for Intentional Living"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "<p>Our design philosophy strips away the unnecessary, focusing entirely on structural integrity and the pure beauty of premium materials. Each piece is a quiet statement of confidence.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "Read the Journal"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    }
+  ],
+  "blocks": [{ "type": "feature-item" }],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "t:general.intentional_living",
+      "blocks": [
+        {
+          "type": "feature-item",
+          "settings": { "icon": "precision", "title": "Structural Precision", "description": "Tailored with exactness to maintain form." }
+        },
+        {
+          "type": "feature-item",
+          "settings": { "icon": "texture", "title": "Tactile Materials", "description": "Sourced for durability and sensual feel." }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -19,9 +19,20 @@
         "button_label": "Shop the Collection",
         "button_link": "shopify://collections/all"
       }
+    },
+    "categories": {
+      "type": "curated-categories",
+      "blocks": {
+        "category-1": { "type": "category-card", "settings": { "title": "Outerwear" } },
+        "category-2": { "type": "category-card", "settings": { "title": "Essentials" } },
+        "category-3": { "type": "category-card", "settings": { "title": "Accessories" } }
+      },
+      "block_order": ["category-1", "category-2", "category-3"],
+      "settings": {}
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "categories"
   ]
 }

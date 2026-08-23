@@ -1,0 +1,101 @@
+{% doc %}
+  Renders a single curated-category card: an image with a bottom-pinned
+  title and "Shop Now" caption over a dark scrim, the whole card linking
+  out to the merchant's chosen destination.
+
+  @example
+  {% content_for 'block', type: 'category-card', id: 'category-card' %}
+{% enddoc %}
+
+<a href="{{ block.settings.link }}" class="category-card" {{ block.shopify_attributes }}>
+  {% if block.settings.image %}
+    <div class="category-card__image">
+      {% render 'image', image: block.settings.image, width: 800 %}
+    </div>
+  {% endif %}
+
+  <div class="category-card__scrim"></div>
+
+  <div class="category-card__content">
+    <h3 class="category-card__title text-headline-sm">{{ block.settings.title }}</h3>
+    <span class="category-card__cta text-label-caps">Shop Now</span>
+  </div>
+</a>
+
+{% stylesheet %}
+  .category-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--color-surface-container);
+  }
+
+  .category-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .category-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.75);
+    transition: transform 700ms ease;
+  }
+
+  .category-card:hover .category-card__image img {
+    transform: scale(1.05);
+  }
+
+  .category-card__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%);
+  }
+
+  .category-card__content {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 32px;
+  }
+
+  .category-card__title {
+    color: var(--color-on-tertiary);
+    margin-bottom: 8px;
+  }
+
+  .category-card__cta {
+    display: inline-block;
+    color: var(--color-on-tertiary);
+    opacity: 0.8;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 4px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.category_card",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.category_title",
+      "default": "Category"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:labels.category_link"
+    }
+  ]
+}
+{% endschema %}

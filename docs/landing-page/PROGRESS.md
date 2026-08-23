@@ -7,7 +7,7 @@ Request review before next step
 
 - [x] Header (@docs/landing-page/STEP-1.md)
 - [x] Hero (@docs/landing-page/STEP-2.md)
-- [ ] Currated Categories (@docs/landing-page/STEP-3.md)
+- [x] Currated Categories (@docs/landing-page/STEP-3.md)
 - [ ] Trending Now (@docs/landing-page/STEP-4.md)
 - [ ] Designed for Intentional Living (@docs/landing-page/STEP-5.md)
 - [ ] Footer (@docs/landing-page/STEP-6.md)

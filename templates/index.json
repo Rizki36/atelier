@@ -11,7 +11,14 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/professional_editorial_fashion_portrait_of_a_model_in_minimalist_clothing.png",
+        "eyebrow": "New Collection",
+        "heading": "The Art of\nSimplicity",
+        "body": "<p>Elevated essentials designed for the modern wardrobe. Focusing on structural clarity and quiet luxury.</p>",
+        "button_label": "Shop the Collection",
+        "button_link": "shopify://collections/all"
+      }
     }
   },
   "order": [

@@ -1,0 +1,120 @@
+{% doc %}
+  Renders a product card with a 3:4 aspect-ratio image, title, color label, and price.
+
+  @param {product} product - The product to render
+  @param {boolean} [lazy] - Whether to lazy-load the image (default: true)
+
+  @example
+  {% render 'product-card', product: product %}
+  {% render 'product-card', product: product, lazy: false %}
+{% enddoc %}
+
+{%- liquid
+  assign lazy_load = lazy | default: true
+  assign image_loading = 'lazy'
+  if lazy_load == false
+    assign image_loading = 'eager'
+  endif
+  
+  assign product_color = product.options_with_values | where: 'name', 'Color' | first
+  assign color_label = ''
+  if product_color
+    assign color_label = product_color.selected_value
+  endif
+  
+  assign card_alt = product.featured_image.alt | default: product.title | escape
+-%}
+
+<a class="product-card" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+  <div class="product-card__image-wrapper">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 600, height: 800, crop: 'center' | image_tag: loading: image_loading, class: 'product-card__image', alt: card_alt, widths: '300,400,600', sizes: '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw' }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__image--placeholder' }}
+    {%- endif -%}
+    <div class="product-card__overlay" aria-hidden="true"></div>
+  </div>
+  <div class="product-card__info">
+    <div class="product-card__meta">
+      <h2 class="product-card__title">{{ product.title | escape }}</h2>
+      {%- if color_label != blank -%}
+        <p class="product-card__color">{{ color_label }}</p>
+      {%- endif -%}
+    </div>
+    <span class="product-card__price">{{ product.price | money_without_trailing_zeros }}</span>
+  </div>
+</a>
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .product-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: var(--color-secondary-container, #f4f3f3);
+  }
+
+  .product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
+  }
+
+  .product-card__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgb(0 0 0 / 5%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .product-card:hover .product-card__overlay {
+    opacity: 1;
+  }
+
+  .product-card__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .product-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .product-card__title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.2;
+    color: var(--color-on-surface, #1a1c1c);
+  }
+
+  .product-card__color {
+    font-size: 0.8125rem;
+    margin: 0;
+    color: var(--color-on-surface-variant, #4c4546);
+  }
+
+  .product-card__price {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-on-surface, #1a1c1c);
+  }
+{% endstylesheet %}

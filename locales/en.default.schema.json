@@ -111,5 +111,12 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     }
+  },
+  "collection": {
+    "products_per_page": "Products per page",
+    "show_filters": "Show filters",
+    "enable_color_swatches": "Enable color swatches",
+    "show_sort": "Show sort by",
+    "show_count": "Show product count"
   }
 }

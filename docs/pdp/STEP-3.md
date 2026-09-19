@@ -65,4 +65,4 @@ None — reuses tokens listed above.
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

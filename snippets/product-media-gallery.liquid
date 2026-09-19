@@ -1,0 +1,205 @@
+{% doc %}
+  Renders the product page media gallery: a desktop vertical thumbnail
+  rail, a large main image with a zoom affordance, and a mobile
+  horizontal snap-scroll thumbnail strip. All three views stay in sync
+  through a shared "active" index toggled by the gallery's own script.
+
+  @param {product} product - The product whose media should be rendered
+
+  @example
+  {% render 'product-media-gallery', product: product %}
+{% enddoc %}
+
+{% liquid
+  assign media_list = product.media
+  assign media_count = media_list.size
+%}
+
+<div class="gallery" data-gallery>
+  {% if media_count > 0 %}
+    <div class="gallery__rail">
+      {% for media in media_list %}
+        <button
+          type="button"
+          class="gallery__thumb{% if forloop.first %} is-active{% endif %}"
+          data-gallery-thumb
+          data-index="{{ forloop.index0 }}"
+          aria-label="{{ 'general.accessibility.view_image' | t: index: forloop.index }}"
+        >
+          {% render 'image', image: media.preview_image, width: 300, class: 'gallery__thumb-image' %}
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="gallery__main">
+      {% for media in media_list %}
+        <div class="gallery__main-image{% if forloop.first %} is-active{% endif %}" data-gallery-main data-index="{{ forloop.index0 }}">
+          {% render 'image', image: media.preview_image, width: 1200, class: 'gallery__main-image-inner' %}
+        </div>
+      {% endfor %}
+
+      <button type="button" class="gallery__zoom" aria-label="{{ 'general.accessibility.zoom_image' | t }}">
+        {{ 'icon-zoom.svg' | inline_asset_content }}
+      </button>
+    </div>
+
+    <div class="gallery__strip">
+      {% for media in media_list %}
+        <button
+          type="button"
+          class="gallery__thumb gallery__thumb--strip{% if forloop.first %} is-active{% endif %}"
+          data-gallery-thumb
+          data-index="{{ forloop.index0 }}"
+          aria-label="{{ 'general.accessibility.view_image' | t: index: forloop.index }}"
+        >
+          {% render 'image', image: media.preview_image, width: 200, class: 'gallery__thumb-image' %}
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .gallery__rail {
+    display: none;
+  }
+
+  .gallery__thumb {
+    padding: 0;
+    border: 1px solid var(--color-outline-variant);
+    background: none;
+    cursor: pointer;
+    transition: border-color var(--motion-fade);
+  }
+
+  .gallery__thumb.is-active {
+    border-color: var(--color-outline);
+  }
+
+  .gallery__thumb-image.image,
+  .gallery__thumb-image.image img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .gallery__thumb-image.image img {
+    object-fit: cover;
+    filter: saturate(0.75);
+    opacity: 0.6;
+    transition: opacity var(--motion-fade);
+  }
+
+  .gallery__thumb.is-active .gallery__thumb-image.image img {
+    opacity: 1;
+  }
+
+  .gallery__main {
+    position: relative;
+  }
+
+  .gallery__main-image {
+    display: none;
+    aspect-ratio: 4 / 5;
+    background: var(--color-surface-container);
+  }
+
+  .gallery__main-image.is-active {
+    display: block;
+  }
+
+  .gallery__main-image-inner.image,
+  .gallery__main-image-inner.image img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gallery__main-image-inner.image img {
+    object-fit: cover;
+    filter: saturate(0.75);
+  }
+
+  .gallery__zoom {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--color-outline-variant);
+    background: var(--color-surface-glass);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--color-on-surface);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--motion-fade);
+  }
+
+  .gallery:hover .gallery__zoom {
+    opacity: 1;
+  }
+
+  .gallery__zoom svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .gallery__strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .gallery__strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery__thumb--strip {
+    flex-shrink: 0;
+    width: 80px;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: 80px 1fr;
+    }
+
+    .gallery__rail {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gallery__strip {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+    const thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
+    const mainImages = gallery.querySelectorAll('[data-gallery-main]');
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const index = thumb.dataset.index;
+
+        thumbs.forEach((t) => t.classList.toggle('is-active', t.dataset.index === index));
+        mainImages.forEach((image) => image.classList.toggle('is-active', image.dataset.index === index));
+      });
+    });
+  });
+{% endjavascript %}

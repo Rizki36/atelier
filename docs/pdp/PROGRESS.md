@@ -5,7 +5,7 @@ Request review before next step
 
 # Progress
 
-- [ ] Product Media Gallery (@docs/pdp/STEP-1.md)
+- [x] Product Media Gallery (@docs/pdp/STEP-1.md)
 - [ ] Product Info Panel & Variant Picker (@docs/pdp/STEP-2.md)
 - [ ] Cart Drawer Foundation (@docs/pdp/STEP-3.md)
 - [ ] Add to Bag & Product Details Accordion (@docs/pdp/STEP-4.md)

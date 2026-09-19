@@ -17,7 +17,9 @@
       "close": "Close",
       "previous": "Previous items",
       "next": "Next items",
-      "add_to_wishlist": "Add to wishlist"
+      "add_to_wishlist": "Add to wishlist",
+      "zoom_image": "Zoom image",
+      "view_image": "View image {{ index }}"
     },
     "footer": {
       "copyright_html": "&copy; {{ year }} {{ shop }}. All rights reserved."

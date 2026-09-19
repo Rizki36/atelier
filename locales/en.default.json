@@ -32,7 +32,8 @@
     }
   },
   "products": {
-    "new_badge": "New"
+    "new_badge": "New",
+    "on_sale": "On sale"
   },
   "404": {
     "title": "404",

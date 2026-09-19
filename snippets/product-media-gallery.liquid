@@ -24,6 +24,7 @@
           class="gallery__thumb{% if forloop.first %} is-active{% endif %}"
           data-gallery-thumb
           data-index="{{ forloop.index0 }}"
+          data-media-id="{{ media.id }}"
           aria-label="{{ 'general.accessibility.view_image' | t: index: forloop.index }}"
         >
           {% render 'image', image: media.preview_image, width: 300, class: 'gallery__thumb-image' %}
@@ -33,7 +34,7 @@
 
     <div class="gallery__main">
       {% for media in media_list %}
-        <div class="gallery__main-image{% if forloop.first %} is-active{% endif %}" data-gallery-main data-index="{{ forloop.index0 }}">
+        <div class="gallery__main-image{% if forloop.first %} is-active{% endif %}" data-gallery-main data-index="{{ forloop.index0 }}" data-media-id="{{ media.id }}">
           {% render 'image', image: media.preview_image, width: 1200, class: 'gallery__main-image-inner' %}
         </div>
       {% endfor %}
@@ -50,6 +51,7 @@
           class="gallery__thumb gallery__thumb--strip{% if forloop.first %} is-active{% endif %}"
           data-gallery-thumb
           data-index="{{ forloop.index0 }}"
+          data-media-id="{{ media.id }}"
           aria-label="{{ 'general.accessibility.view_image' | t: index: forloop.index }}"
         >
           {% render 'image', image: media.preview_image, width: 200, class: 'gallery__thumb-image' %}
@@ -193,13 +195,21 @@
     const thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
     const mainImages = gallery.querySelectorAll('[data-gallery-main]');
 
-    thumbs.forEach((thumb) => {
-      thumb.addEventListener('click', () => {
-        const index = thumb.dataset.index;
+    function activateIndex(index) {
+      thumbs.forEach((t) => t.classList.toggle('is-active', t.dataset.index === index));
+      mainImages.forEach((image) => image.classList.toggle('is-active', image.dataset.index === index));
+    }
 
-        thumbs.forEach((t) => t.classList.toggle('is-active', t.dataset.index === index));
-        mainImages.forEach((image) => image.classList.toggle('is-active', image.dataset.index === index));
-      });
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => activateIndex(thumb.dataset.index));
+    });
+
+    document.addEventListener('pdp:variant-change', (event) => {
+      const variant = event.detail && event.detail.variant;
+      if (!variant || !variant.featuredMediaId) return;
+
+      const target = gallery.querySelector(`[data-gallery-thumb][data-media-id="${variant.featuredMediaId}"]`);
+      if (target) activateIndex(target.dataset.index);
     });
   });
 {% endjavascript %}

@@ -59,4 +59,4 @@ None expected — this step consumes, audits, and (if needed) corrects usage of 
 ## Checklist
 
 - [x] PROGRESS.md updated
-- [ ] Committed
+- [x] Committed

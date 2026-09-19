@@ -57,12 +57,23 @@
   },
   "cart": {
     "checkout": "Checkout",
-    "title": "Cart",
+    "title": "Your Cart",
     "update": "Update",
     "remove": "Remove",
     "subtotal": "Subtotal",
     "empty": "Your cart is empty",
-    "view_cart": "View cart"
+    "view_cart": "View cart",
+    "clear_all": "Clear All",
+    "save_for_later": "Save for Later",
+    "order_summary": "Order Summary",
+    "shipping": "Shipping",
+    "taxes": "Taxes",
+    "calculated_at_checkout": "Calculated at checkout",
+    "total": "Total",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "empty_text": "Looks like you haven't added anything yet.",
+    "continue_shopping": "Continue Shopping",
+    "item_count": "({{ count }} Items)"
   },
   "customers": {
     "login": {

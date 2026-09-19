@@ -17,7 +17,7 @@
       {% for link in section.settings.menu.links %}
         <a
           href="{{ link.url }}"
-          class="header__nav-link text-label-caps{% if link.active %} header__nav-link--active{% endif %}"
+          class="header__nav-link text-label-sm{% if link.active %} header__nav-link--active{% endif %}"
           {% if link.active %}
             aria-current="page"
           {% endif %}
@@ -28,7 +28,11 @@
     </nav>
 
     <div class="header__actions">
-      <a href="{{ routes.search_url }}" class="header__icon-button" aria-label="{{ 'general.accessibility.search' | t }}">
+      <a
+        href="{{ routes.search_url }}"
+        class="header__icon-button"
+        aria-label="{{ 'general.accessibility.search' | t }}"
+      >
         {{ 'icon-search.svg' | inline_asset_content }}
       </a>
 
@@ -84,7 +88,11 @@
     </nav>
 
     <div class="header__mobile-nav-actions">
-      <a href="{{ routes.search_url }}" class="header__icon-button" aria-label="{{ 'general.accessibility.search' | t }}">
+      <a
+        href="{{ routes.search_url }}"
+        class="header__icon-button"
+        aria-label="{{ 'general.accessibility.search' | t }}"
+      >
         {{ 'icon-search.svg' | inline_asset_content }}
       </a>
       <a href="{{ routes.cart_url }}" class="header__icon-button" aria-label="{{ 'general.accessibility.cart' | t }}">
@@ -254,9 +262,7 @@
     background: var(--color-surface);
     color: var(--color-on-surface);
     opacity: 0;
-    transition:
-      opacity var(--motion-fade) allow-discrete,
-      display var(--motion-fade) allow-discrete,
+    transition: opacity var(--motion-fade) allow-discrete, display var(--motion-fade) allow-discrete,
       overlay var(--motion-fade) allow-discrete;
   }
 

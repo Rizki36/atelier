@@ -37,6 +37,7 @@
     "new_badge": "New",
     "on_sale": "On sale",
     "add_to_bag": "Add to bag",
+    "buy_now": "Buy it now",
     "shipping_note": "Complimentary shipping on orders over {{ threshold }}",
     "sold_out": "Sold out"
   },

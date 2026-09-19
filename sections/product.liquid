@@ -47,10 +47,17 @@
       {% form 'product', product, data-product-form: true %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
         <input type="hidden" name="quantity" value="1">
-        <button type="submit" class="product-form__submit text-label-lg" data-product-form-submit>
+        <button type="submit" class="product-form__submit text-label-caps" data-product-form-submit>
           {{ 'products.add_to_bag' | t }}
         </button>
-        {{ form | payment_button }}
+        <button
+          type="submit"
+          class="product-form__submit product-form__submit--secondary text-label-caps"
+          data-product-form-submit
+          data-buy-now
+        >
+          {{ 'products.buy_now' | t }}
+        </button>
       {% endform %}
 
       {% if section.settings.free_shipping_threshold > 0 %}
@@ -168,6 +175,20 @@
     cursor: not-allowed;
   }
 
+  .product-form__submit--secondary {
+    margin-top: calc(var(--spacing-unit) * 1);
+    background: transparent;
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-primary);
+    transition: background-color var(--motion-fade), color var(--motion-fade);
+  }
+
+  .product-form__submit--secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    opacity: 1;
+  }
+
   .product-form__shipping-note {
     text-align: center;
     color: var(--color-on-surface-variant);
@@ -188,13 +209,14 @@
 
 {% javascript %}
   document.querySelectorAll('[data-product-form]').forEach((form) => {
-    const submitButton = form.querySelector('[data-product-form-submit]');
-
     form.addEventListener('submit', (event) => {
       if (!window.fetch) return;
       event.preventDefault();
 
-      if (submitButton) submitButton.disabled = true;
+      const submitter = event.submitter || form.querySelector('[data-product-form-submit]');
+      const isBuyNow = submitter ? submitter.hasAttribute('data-buy-now') : false;
+
+      if (submitter) submitter.disabled = true;
 
       fetch('/cart/add.js', {
         method: 'POST',
@@ -203,17 +225,22 @@
       })
         .then((response) => {
           if (!response.ok) throw new Error('add_to_cart_failed');
-          return fetch('/cart.js');
+
+          if (isBuyNow) {
+            window.location.href = '/checkout';
+            return null;
+          }
+
+          return fetch('/cart.js').then((cartResponse) => cartResponse.json());
         })
-        .then((response) => response.json())
         .then((cart) => {
-          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+          if (cart) document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
         })
         .catch(() => {
           form.submit();
         })
         .finally(() => {
-          if (submitButton) submitButton.disabled = false;
+          if (submitter) submitter.disabled = false;
         });
     });
   });

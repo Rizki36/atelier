@@ -21,17 +21,19 @@
       {% endif %}
     </div>
 
-    <div class="styling__media">
-      <div class="styling__decoration" aria-hidden="true"></div>
-      <div class="styling__images">
-        {% if section.settings.image_1 %}
-          {% render 'image', image: section.settings.image_1, class: 'styling__image styling__image--offset', width: 600 %}
-        {% endif %}
-        {% if section.settings.image_2 %}
-          {% render 'image', image: section.settings.image_2, class: 'styling__image', width: 600 %}
-        {% endif %}
+    {% if section.settings.image_1 or section.settings.image_2 %}
+      <div class="styling__media">
+        <div class="styling__decoration" aria-hidden="true"></div>
+        <div class="styling__images">
+          {% if section.settings.image_1 %}
+            {% render 'image', image: section.settings.image_1, class: 'styling__image styling__image--offset', width: 600 %}
+          {% endif %}
+          {% if section.settings.image_2 %}
+            {% render 'image', image: section.settings.image_2, class: 'styling__image', width: 600 %}
+          {% endif %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 </section>
 

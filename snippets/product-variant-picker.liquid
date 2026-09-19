@@ -18,7 +18,7 @@
   assign current_variant = product.selected_or_first_available_variant
 %}
 
-<div class="variant-picker" data-variant-picker>
+<div class="variant-picker" data-variant-picker data-sold-out-label="{{ 'products.sold_out' | t }}">
   {% for option in product.options_with_values %}
     {% assign option_index = forloop.index0 %}
     {% assign is_color = false %}
@@ -182,6 +182,7 @@
 
 {% javascript %}
   document.querySelectorAll('[data-variant-picker]').forEach((picker) => {
+    const soldOutLabel = picker.dataset.soldOutLabel || 'Sold out';
     const json = picker.querySelector('[data-variant-picker-json]');
     const variants = JSON.parse(json.textContent);
     const optionGroups = Array.from(picker.querySelectorAll('[data-variant-option]'));
@@ -221,6 +222,12 @@
 
           button.disabled = !available;
           button.setAttribute('aria-disabled', String(!available));
+
+          if (!available) {
+            button.setAttribute('aria-label', `${button.dataset.optionValue} — ${soldOutLabel}`);
+          } else {
+            button.removeAttribute('aria-label');
+          }
         });
       });
     }

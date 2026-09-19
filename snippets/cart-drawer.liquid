@@ -19,20 +19,22 @@
   data-cart-drawer
   data-currency="{{ cart.currency.iso_code }}"
   data-empty-text="{{ 'cart.empty' | t }}"
+  aria-labelledby="cart-drawer-title"
 >
   <div class="cart-drawer__top">
-    <span class="text-headline-sm">{{ 'cart.title' | t }}</span>
+    <span id="cart-drawer-title" class="text-headline-sm">{{ 'cart.title' | t }}</span>
     <button
       type="button"
       class="cart-drawer__close"
       aria-label="{{ 'general.accessibility.close_cart' | t }}"
       data-cart-drawer-close
+      autofocus
     >
       {{ 'icon-close.svg' | inline_asset_content }}
     </button>
   </div>
 
-  <div class="cart-drawer__body" data-cart-drawer-body>
+  <div class="cart-drawer__body" data-cart-drawer-body role="status" aria-live="polite">
     {% if cart.item_count > 0 %}
       {% for item in cart.items %}
         <div class="cart-drawer__item">

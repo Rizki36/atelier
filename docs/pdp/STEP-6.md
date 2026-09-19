@@ -1,6 +1,17 @@
 # Step 6 — Locale, Schema, Accessibility & Responsive Polish
 
-## What was built (planned)
+## What was built (actual)
+
+A full audit of Steps 1–5 was run against the plan below. Locale keys (`en.default.json`) and schema strings (`en.default.schema.json`) were already clean — no duplicates or naming drift found, so no consolidation edits were needed there. `shopify theme check` was clean both before and after (52 files, 3 pre-existing Google Fonts `RemoteAsset` warnings only). The audit found and fixed four real gaps:
+
+- **Cart drawer focus management**: the `<dialog>` had no `aria-labelledby` and no focus placed on open. Gave the title `<span>` an `id="cart-drawer-title"`, wired it via `aria-labelledby`, and added `autofocus` to the close button so both the header's open button and the `cart:updated` JS flow (both call `showModal()`) move focus there automatically — no extra JS needed. Native `<dialog>` already restores focus to the triggering element on `close()`, confirmed via a real open/Escape/close cycle in-browser.
+- **Cart drawer live region**: `cart-drawer__body` had no way to announce contents changing after an add-to-cart. Added `role="status" aria-live="polite"`.
+- **Variant picker sold-out announcement**: disabled option buttons relied on the native `disabled` attribute alone. Added a `products.sold_out` locale key and JS that sets `aria-label="{value} — Sold out"` on unavailable buttons (removed when available again), verified by injecting the logic against a live button and confirming the resulting label text.
+- **Styling section empty-media gap**: with no `image_1`/`image_2` configured (the seeded `templates/product.json` doesn't set either), `.styling__media` still rendered its decorative backdrop, leaving a large empty gray box between the CTA and the footer at both 390px and 1440px. Wrapped `.styling__media` in `{% if section.settings.image_1 or section.settings.image_2 %}` so the section degrades to text-only cleanly until a merchant adds images.
+
+Everything else audited clean: icon-only buttons (gallery zoom/thumbs, cart close, header search/cart/menu) all had `aria-label`s already; `product-styling.liquid`'s heading already used the `aria-labelledby`/`id` pairing matching `trending-now.liquid`; no element in the PDP strips the default focus outline, confirmed visually with a real keyboard tab-through (header → gallery → variant picker → add to bag → payment button → accordion → styling CTA → footer, in order, no traps); the accordion's `<details>/<summary>` already gets correct expand/collapse semantics for free from native HTML.
+
+## What was planned
 
 - A cross-cutting pass over everything added in Steps 1–5, rather than new user-facing functionality: consolidate and finalize locale keys, run an accessibility audit, do a full responsive sweep, and clear `shopify theme check`.
 - **Locale consolidation**: review every `products.*`, `general.accessibility.*`, and `cart.*` key added across Steps 1–5 for duplicates or naming drift (e.g. confirm Step 4's `products.add_to_bag` and Step 3's `cart.*` keys don't overlap in meaning), and confirm `en.default.schema.json`'s `general.*`/`labels.*` additions reused existing shared labels wherever possible instead of accumulating near-duplicates (e.g. `labels.heading` vs. a hypothetical `labels.section_heading`).
@@ -14,9 +25,11 @@
 New:
 - `docs/pdp/STEP-6.md` — this file.
 
-Modified (as needed, scope determined during the audit — not predetermined):
-- `locales/en.default.json`, `locales/en.default.schema.json` — any key renames/dedup found during consolidation.
-- `sections/product.liquid`, `sections/product-styling.liquid`, `snippets/product-media-gallery.liquid`, `snippets/product-variant-picker.liquid`, `snippets/cart-drawer.liquid`, `blocks/product-detail.liquid` — targeted accessibility fixes only, no structural rework (any structural gap found here should be treated as a bug in the originating step, not new scope for Step 6).
+Modified:
+- `locales/en.default.json` — added `products.sold_out`.
+- `snippets/cart-drawer.liquid` — `aria-labelledby`, title `id`, `autofocus` on close button, `role="status" aria-live="polite"` on the item list.
+- `snippets/product-variant-picker.liquid` — `data-sold-out-label` on the picker root, JS sets/clears `aria-label` on disabled option buttons.
+- `sections/product-styling.liquid` — `.styling__media` (decoration + images) now only renders when at least one image is configured.
 - `docs/pdp/PROGRESS.md` — all six items checked off.
 
 No new sections, blocks, or snippets are expected in this step — it is a hardening pass, not a feature step.
@@ -45,5 +58,5 @@ None expected — this step consumes, audits, and (if needed) corrects usage of 
 
 ## Checklist
 
-- [ ] PROGRESS.md updated
+- [x] PROGRESS.md updated
 - [ ] Committed

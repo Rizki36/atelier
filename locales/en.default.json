@@ -19,7 +19,9 @@
       "next": "Next items",
       "add_to_wishlist": "Add to wishlist",
       "zoom_image": "Zoom image",
-      "view_image": "View image {{ index }}"
+      "view_image": "View image {{ index }}",
+      "open_cart": "Open cart",
+      "close_cart": "Close cart"
     },
     "footer": {
       "copyright_html": "&copy; {{ year }} {{ shop }}. All rights reserved."
@@ -53,7 +55,10 @@
     "checkout": "Checkout",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "empty": "Your cart is empty",
+    "view_cart": "View cart"
   },
   "customers": {
     "login": {

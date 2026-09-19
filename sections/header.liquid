@@ -32,12 +32,18 @@
         {{ 'icon-search.svg' | inline_asset_content }}
       </a>
 
-      <a href="{{ routes.cart_url }}" class="header__icon-button" aria-label="{{ 'general.accessibility.cart' | t }}">
+      <button
+        type="button"
+        class="header__icon-button"
+        aria-label="{{ 'general.accessibility.open_cart' | t }}"
+        aria-controls="cart-drawer"
+        data-cart-drawer-open
+      >
         {% if cart.item_count > 0 %}
-          <sup class="header__cart-count">{{ cart.item_count }}</sup>
+          <sup class="header__cart-count" data-cart-count>{{ cart.item_count }}</sup>
         {% endif %}
         {{ 'icon-cart.svg' | inline_asset_content }}
-      </a>
+      </button>
 
       {% if shop.customer_accounts_enabled %}
         <shopify-account menu="{{ section.settings.customer_account_menu }}" class="header__account">
@@ -321,6 +327,12 @@
 
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();
+    });
+  });
+
+  document.querySelectorAll('[data-cart-drawer-open]').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.getElementById('cart-drawer')?.showModal();
     });
   });
 {% endjavascript %}

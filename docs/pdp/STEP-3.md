@@ -1,6 +1,6 @@
 # Step 3 — Cart Drawer Foundation
 
-## What was built (planned)
+## What was built
 
 - Net-new cart infrastructure: the theme currently has **no cart JS at all** — the header cart icon is a plain `<a href="{{ routes.cart_url }}">` and `sections/cart.liquid` is the stock full-page table. This step adds an AJAX cart drawer so the PDP's Add to Bag (Step 4) can confirm instantly without a page reload.
 - New `snippets/cart-drawer.liquid`, rendered once from `layout/theme.liquid` (so it's available on every page): a `<dialog>`-based slide-out panel, following the exact `<dialog>` open/close pattern already used for `sections/header.liquid`'s mobile nav. Server-rendered from the live `cart` object on first paint (so it works even before any JS runs), listing line items (image, title, variant, quantity, line price) with a subtotal and checkout link.
@@ -44,7 +44,25 @@ None — reuses tokens listed above.
 3. Add an item to the cart via `/cart/add` (e.g. through the stock `/cart` page or curl) in another tab, then reopen the drawer and confirm it reflects the update (this validates the event/fetch plumbing independent of the PDP).
 4. `shopify theme check` — expect only the existing baseline warnings, no new errors.
 
+## Implementation notes (deviations from plan)
+
+- **`<dialog>` default `left: 0` fights `right: 0`.** The native dialog UA stylesheet sets `left: 0`, and since the drawer also declares a fixed `width`, the box is over-constrained and the browser resolves it using `left` (ignoring `right`) in LTR — the panel rendered flush against the *left* edge instead of the right. Fixed by explicitly setting `left: auto` alongside `right: 0`. Worth remembering for any other right-anchored `<dialog>` in this theme.
+- **`.header__icon-button` reuse triggered `ValidScopedCSSClass`.** The drawer's close button initially reused `header__icon-button` (defined in `sections/header.liquid`'s own `{% stylesheet %}`), which theme-check flags as a cross-file class reference. Gave the drawer its own `.cart-drawer__close` with identical visual rules instead — keeps the snippet's `{% stylesheet %}` self-contained, matching the "own stylesheet" plan intent.
+- **`{% doc %}` param type `{cart}` isn't a recognized LiquidDoc type** (`ValidDocParamTypes` error) — changed to the generic `{object}`, matching how other object-shaped params (not `product`/`collection`/etc.) are documented elsewhere in the theme.
+- **Client-side money formatting needed explicit fraction digits.** `Intl.NumberFormat` defaults IDR (the dev store's currency) to 0 fraction digits, which silently rounded cents (e.g. `139990` → "IDR 1,400" instead of matching the Liquid `money` filter's "Rp 1.399,90"). Forced `minimumFractionDigits`/`maximumFractionDigits: 2` on the formatter so the client refresh path doesn't drift from the server-rendered format on first paint.
+- Header's mobile-nav duplicate cart link (`sections/header.liquid`, inside `.header__mobile-nav-actions`) was left as a plain link to `/cart` — out of scope per the plan, which only called out the primary header cart icon.
+
+## Verification
+
+- `shopify theme check`: 3 pre-existing baseline `RemoteAsset` warnings only, no new errors/warnings.
+- Manually verified in a running `shopify theme dev` session via browser automation:
+  - Empty-cart state renders correctly (message, no footer).
+  - Adding an item via `/cart/add.js` then reloading shows the server-rendered line item, subtotal, and updates the header badge.
+  - Dispatching a `cart:updated` custom event with a live `/cart.js` payload re-renders line items, subtotal, and header badge client-side, and opens the drawer — without needing to know Step 4 exists yet.
+  - Close button and backdrop click-outside both dismiss the dialog.
+  - At ~390px the drawer covers full viewport width; at desktop width it's a fixed 420px right-anchored panel with a dimmed backdrop.
+
 ## Checklist
 
-- [ ] PROGRESS.md updated
+- [x] PROGRESS.md updated
 - [ ] Committed

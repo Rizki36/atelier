@@ -15,20 +15,26 @@
         "details": {
           "type": "product-detail",
           "settings": {
-            "title": "Product details"
-          }
+            "title": "Product details",
+            "body": ""
+          },
+          "blocks": {}
         },
         "size-and-fit": {
           "type": "product-detail",
           "settings": {
-            "title": "Size & fit"
-          }
+            "title": "Size & fit",
+            "body": ""
+          },
+          "blocks": {}
         },
         "care-instructions": {
           "type": "product-detail",
           "settings": {
-            "title": "Care instructions"
-          }
+            "title": "Care instructions",
+            "body": ""
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -36,11 +42,21 @@
         "size-and-fit",
         "care-instructions"
       ],
-      "settings": {}
+      "settings": {
+        "free_shipping_threshold": 100
+      }
     },
     "styling": {
       "type": "product-styling",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Styling",
+        "heading": "Effortless Structure",
+        "body": "<p>The versatility of this piece allows it to anchor both daytime tailoring and evening ensembles. Its architectural lines speak for themselves.</p>",
+        "button_label": "Shop the look",
+        "button_link": "",
+        "image_1": "shopify://shop_images/unnamed_2.jpg",
+        "image_2": "shopify://shop_images/unnamed_3.jpg"
+      }
     }
   },
   "order": [

@@ -5,60 +5,254 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/search
 {% endcomment %}
 
-<h1>{{ 'search.title' | t }}</h1>
+<div class="search full-width">
+  <div class="search__header">
+    <div class="search__header-inner">
+      <h1 class="search__title text-headline-md">{{ 'search.title' | t }}</h1>
 
-<form action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    size="50"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-  >
-  <button type="submit">{{ 'search.submit' | t }}</button>
-</form>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search__form">
+        <label class="search__visually-hidden" for="SearchInput-{{ section.id }}">
+          {{ 'search.placeholder' | t }}
+        </label>
+        <input
+          id="SearchInput-{{ section.id }}"
+          type="search"
+          name="q"
+          class="search__input text-body-md"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'search.placeholder' | t }}"
+        >
+        <button type="submit" class="button button--primary search__submit text-label-caps">
+          {{ 'search.submit' | t }}
+        </button>
+      </form>
+    </div>
+  </div>
 
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+  {% if search.performed %}
+    <div class="search__results-inner">
+      {% if search.results_count == 0 %}
+        <div class="search__empty">
+          <p class="search__empty-message text-body-lg">
+            {{ 'search.no_results_html' | t: terms: search.terms }}
+          </p>
+        </div>
+      {% else %}
+        <p class="search__count text-label-sm">
+          {{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}
+        </p>
 
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
-                {% endif %}
-              </p>
-            </div>
+        {% paginate search.results by 20 %}
+          <div class="search-results">
+            {% # Search result items may be an article, a page, or a product. %}
+            {% for result in search.results %}
+              {% assign featured_image = result.featured_image | default: result.image %}
+              {% if featured_image %}
+                <div class="search-result search-result--media">
+                  <a href="{{ result.url }}" class="search-result__link">
+                    <div class="search-result__image-wrap">
+                      {% render 'image', image: featured_image, url: result.url, width: 640 %}
+                    </div>
+                    <div class="search-result__info">
+                      <div>
+                        <h3 class="search-result__title text-body-md">{{ result.title }}</h3>
+                        {% if result.type != blank %}
+                          <p class="search-result__meta text-label-sm">{{ result.type }}</p>
+                        {% endif %}
+                      </div>
+                      {% if result.price %}
+                        <span class="search-result__price text-body-md">{{ result.price | money }}</span>
+                      {% endif %}
+                    </div>
+                  </a>
+                </div>
+              {% else %}
+                <div class="search-result search-result--row">
+                  <a href="{{ result.url }}" class="search-result__row-link">
+                    <h3 class="search-result__title text-body-md">{{ result.title }}</h3>
+                    {% if result.excerpt %}
+                      <p class="search-result__excerpt text-label-sm">{{ result.excerpt | strip_html | truncate: 140 }}</p>
+                    {% endif %}
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
-        {% endfor %}
 
-        {{ paginate | default_pagination }}
-      {% endpaginate %}
+          <div class="search__pagination text-label-sm">
+            {{ paginate | default_pagination }}
+          </div>
+        {% endpaginate %}
+      {% endif %}
     </div>
   {% endif %}
-{% endif %}
+</div>
 
 {% stylesheet %}
+  .search__header {
+    padding-block: var(--spacing-section-gap) 48px;
+  }
+
+  .search__header-inner {
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .search__title {
+    color: var(--color-on-surface);
+    margin-bottom: 32px;
+  }
+
+  .search__form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 480px;
+  }
+
+  .search__input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-outline);
+    border-radius: var(--radius);
+    padding-block: 8px;
+    color: var(--color-on-surface);
+  }
+
+  .search__input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .search__submit {
+    flex-shrink: 0;
+  }
+
+  .search__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .search__results-inner {
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+    padding-bottom: var(--spacing-section-gap);
+  }
+
+  .search__count {
+    color: var(--color-on-surface-variant);
+    margin-bottom: 32px;
+  }
+
+  .search__empty {
+    padding-block: 80px;
+    text-align: center;
+  }
+
+  .search__empty-message {
+    color: var(--color-on-surface-variant);
+  }
+
   .search-results {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--spacing-gutter);
   }
-  .search-results .prev,
-  .search-results .page,
-  .search-results .next {
+
+  .search-result--row {
     grid-column: 1 / -1;
+  }
+
+  .search-result__link,
+  .search-result__row-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .search-result__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background: var(--color-surface-container);
+  }
+
+  .search-result__image-wrap .image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .search-result__image-wrap .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.75);
+  }
+
+  .search-result__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .search-result__title {
+    color: var(--color-on-surface);
+    font-weight: 500;
+  }
+
+  .search-result__meta {
+    color: var(--color-on-surface-variant);
+    margin-top: 4px;
+  }
+
+  .search-result__price {
+    color: var(--color-on-surface);
+    white-space: nowrap;
+  }
+
+  .search-result--row .search-result__row-link {
+    padding-block: 24px;
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .search-result--row:first-child .search-result__row-link {
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .search-result__excerpt {
+    color: var(--color-on-surface-variant);
+    margin-top: 8px;
+  }
+
+  .search__pagination {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+    color: var(--color-on-surface-variant);
+  }
+
+  .search__pagination a {
+    color: var(--color-on-surface);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-outline);
+  }
+
+  .search__pagination .page.current {
+    color: var(--color-on-surface-variant);
   }
 {% endstylesheet %}
 

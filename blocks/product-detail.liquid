@@ -1,0 +1,89 @@
+{% doc %}
+  Renders one collapsible accordion item for the product detail page (e.g.
+  Product Details, Size & Fit, Care Instructions), using native
+  <details>/<summary> for built-in keyboard and screen-reader support.
+
+  @example
+  {% content_for 'block', type: 'product-detail', id: 'product-detail' %}
+{% enddoc %}
+
+<details class="product-detail" {{ block.shopify_attributes }}>
+  <summary class="product-detail__summary text-label-lg">
+    {{ block.settings.title }}
+    <span class="product-detail__icon">{{ 'icon-chevron-down.svg' | inline_asset_content }}</span>
+  </summary>
+  <div class="product-detail__body text-body-md">
+    {{ block.settings.body }}
+  </div>
+</details>
+
+{% stylesheet %}
+  .product-detail {
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .product-detail__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: calc(var(--spacing-unit) * 2);
+    color: var(--color-on-surface);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .product-detail__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-detail__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--color-on-surface-variant);
+    transition: transform var(--motion-fade);
+  }
+
+  .product-detail__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-detail[open] .product-detail__icon {
+    transform: rotate(180deg);
+  }
+
+  .product-detail__body {
+    padding-bottom: calc(var(--spacing-unit) * 2);
+    color: var(--color-on-surface-variant);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.product_detail",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.heading",
+      "default": "Product details"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:labels.body"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.product_detail",
+      "category": "t:general.product"
+    }
+  ]
+}
+{% endschema %}

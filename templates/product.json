@@ -11,6 +11,31 @@
   "sections": {
     "main": {
       "type": "product",
+      "blocks": {
+        "details": {
+          "type": "product-detail",
+          "settings": {
+            "title": "Product details"
+          }
+        },
+        "size-and-fit": {
+          "type": "product-detail",
+          "settings": {
+            "title": "Size & fit"
+          }
+        },
+        "care-instructions": {
+          "type": "product-detail",
+          "settings": {
+            "title": "Care instructions"
+          }
+        }
+      },
+      "block_order": [
+        "details",
+        "size-and-fit",
+        "care-instructions"
+      ],
       "settings": {}
     }
   },

@@ -1,6 +1,6 @@
 # Step 4 — Add to Bag & Product Details Accordion
 
-## What was built (planned)
+## What was built
 
 - Wire the PDP's `{% form 'product', product %}` Add to Bag button to the Step 3 cart drawer: on submit, intercept via `fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })`; on success, `fetch('/cart.js')` and `document.dispatchEvent(new CustomEvent('cart:updated', { detail: cart }))` so the drawer refreshes and opens itself — no page reload. If JS fails to load or errors, the form falls back to a native submit (progressive enhancement, no dead-end).
 - Add the shipping-note copy below the button ("Complimentary shipping on orders over $X"), with the threshold sourced from a new section setting (not hardcoded), matching the wireframe.
@@ -20,6 +20,11 @@ Modified:
 - `locales/en.default.schema.json` — add `general.product_detail` (block name), reuse `labels.heading`/`labels.text` if suitable or add `labels.free_shipping_threshold`.
 
 No changes to `snippets/cart-drawer.liquid`'s internals beyond what Step 3 already defined (it only ever consumes `cart:updated`).
+
+New (not originally planned):
+- `assets/icon-chevron-down.svg` — accordion chevron, matching `icon-close.svg`'s `currentColor`/`var(--icon-stroke-width)` convention.
+
+Deviation from plan: the `free_shipping_threshold` setting and `product-detail` blocks live directly on `sections/product.liquid`'s schema (no separate settings group was needed — one `number` setting was enough). `templates/product.json` seeds the three default blocks via a `blocks`/`block_order` map, mirroring `footer-group.json`'s pattern, rather than relying solely on the block's `presets`.
 
 ## Design decisions & rationale
 
@@ -49,5 +54,5 @@ None — reuses tokens listed above.
 
 ## Checklist
 
-- [ ] PROGRESS.md updated
+- [x] PROGRESS.md updated
 - [ ] Committed

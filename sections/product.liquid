@@ -8,6 +8,7 @@
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
   assign breadcrumb_collection = collection | default: product.collections.first
+  assign free_shipping_threshold_money = section.settings.free_shipping_threshold | times: 100 | money
 %}
 
 <div class="product">
@@ -43,13 +44,27 @@
     {% render 'product-variant-picker', product: product %}
 
     <div class="product-form">
-      {% form 'product', product %}
+      {% form 'product', product, data-product-form: true %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
         <input type="hidden" name="quantity" value="1">
-        <input type="submit" value="Add to cart">
+        <button type="submit" class="product-form__submit text-label-lg" data-product-form-submit>
+          {{ 'products.add_to_bag' | t }}
+        </button>
         {{ form | payment_button }}
       {% endform %}
+
+      {% if section.settings.free_shipping_threshold > 0 %}
+        <p class="product-form__shipping-note text-label-sm">
+          {{ 'products.shipping_note' | t: threshold: free_shipping_threshold_money }}
+        </p>
+      {% endif %}
     </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="product__accordion">
+        {% content_for 'blocks' %}
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -125,6 +140,44 @@
     border: 0;
   }
 
+  .product-form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 5);
+  }
+
+  .product-form__submit {
+    display: block;
+    width: 100%;
+    padding: calc(var(--spacing-unit) * 2);
+    border: none;
+    border-radius: var(--radius);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    cursor: pointer;
+    transition: opacity var(--motion-fade);
+  }
+
+  .product-form__submit:hover {
+    opacity: 0.9;
+  }
+
+  .product-form__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .product-form__shipping-note {
+    text-align: center;
+    color: var(--color-on-surface-variant);
+  }
+
+  .product__accordion {
+    margin-top: calc(var(--spacing-unit) * 6);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
   @media (min-width: 1024px) {
     .product {
       grid-template-columns: 2fr 1fr;
@@ -133,10 +186,51 @@
   }
 {% endstylesheet %}
 
+{% javascript %}
+  document.querySelectorAll('[data-product-form]').forEach((form) => {
+    const submitButton = form.querySelector('[data-product-form-submit]');
+
+    form.addEventListener('submit', (event) => {
+      if (!window.fetch) return;
+      event.preventDefault();
+
+      if (submitButton) submitButton.disabled = true;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('add_to_cart_failed');
+          return fetch('/cart.js');
+        })
+        .then((response) => response.json())
+        .then((cart) => {
+          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+        })
+        .catch(() => {
+          form.submit();
+        })
+        .finally(() => {
+          if (submitButton) submitButton.disabled = false;
+        });
+    });
+  });
+{% endjavascript %}
+
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "t:labels.free_shipping_threshold",
+      "default": 100
+    }
+  ],
+  "blocks": [{ "type": "product-detail" }],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

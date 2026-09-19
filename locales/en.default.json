@@ -35,7 +35,9 @@
   },
   "products": {
     "new_badge": "New",
-    "on_sale": "On sale"
+    "on_sale": "On sale",
+    "add_to_bag": "Add to bag",
+    "shipping_note": "Complimentary shipping on orders over {{ threshold }}"
   },
   "404": {
     "title": "404",

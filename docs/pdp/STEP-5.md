@@ -45,7 +45,14 @@ None — reuses tokens listed above.
 4. In the theme editor: confirm the section's heading/body/CTA/images are all editable, and that the section can be reordered or removed from the product template without breaking the rest of the page.
 5. `shopify theme check` — expect only the existing baseline warnings, no new errors.
 
+## Implementation notes
+
+- Built as planned: `sections/product-styling.liquid` with eyebrow/heading/richtext body/CTA settings and two `image_picker` settings (`image_1`, `image_2`) for the offset image pair, reusing `intentional-living.liquid`'s settings shape and design tokens.
+- Wired into `templates/product.json` as a second `"styling"` entry after `"main"` in `order`.
+- Added `general.product_styling` to `locales/en.default.schema.json`; all other `t:labels.*` keys (`heading`, `body`, `button_label`, `button_link`, `image`, `eyebrow`) already existed and were reused as planned.
+- Verified live: `shopify theme check` shows only the pre-existing baseline warnings (no new errors); desktop (~1440px) rendering confirmed via `shopify theme dev` — eyebrow/headline/body/CTA render correctly with the decorative backdrop grid on the right. Mobile collapse relies on the same `@media (min-width: 768px)` single-column-below breakpoint already proven in `intentional-living.liquid`.
+
 ## Checklist
 
-- [ ] PROGRESS.md updated
+- [x] PROGRESS.md updated
 - [ ] Committed

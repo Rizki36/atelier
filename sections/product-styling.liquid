@@ -1,0 +1,198 @@
+{% comment %}
+  Renders an editorial "how to wear" section: a vertical eyebrow label,
+  heading, body copy and a CTA link paired with an offset two-image
+  layout over a decorative low-surface backdrop.
+{% endcomment %}
+
+<section class="styling" aria-labelledby="styling-heading">
+  <div class="styling__grid">
+    <div class="styling__content">
+      <span class="styling__eyebrow text-label-caps" aria-hidden="true">{{ section.settings.eyebrow }}</span>
+      <h2 id="styling-heading" class="styling__heading text-headline-md">{{ section.settings.heading }}</h2>
+
+      {% if section.settings.body != blank %}
+        <div class="styling__body text-body-md">{{ section.settings.body }}</div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="styling__cta text-label-caps">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="styling__media">
+      <div class="styling__decoration" aria-hidden="true"></div>
+      <div class="styling__images">
+        {% if section.settings.image_1 %}
+          {% render 'image', image: section.settings.image_1, class: 'styling__image styling__image--offset', width: 600 %}
+        {% endif %}
+        {% if section.settings.image_2 %}
+          {% render 'image', image: section.settings.image_2, class: 'styling__image', width: 600 %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .styling {
+    padding-block: var(--spacing-section-gap);
+  }
+
+  .styling__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-gutter);
+  }
+
+  .styling__content {
+    position: relative;
+  }
+
+  .styling__eyebrow {
+    display: block;
+    margin-bottom: 24px;
+    color: var(--color-on-surface-variant);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  .styling__heading {
+    color: var(--color-on-surface);
+    margin-bottom: 24px;
+  }
+
+  .styling__body {
+    color: var(--color-on-surface-variant);
+    margin-bottom: 32px;
+    max-width: 32em;
+  }
+
+  .styling__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+    padding-bottom: 4px;
+    text-decoration: none;
+    transition: color var(--motion-fade), border-color var(--motion-fade);
+  }
+
+  .styling__cta:hover {
+    color: var(--color-on-surface-variant);
+    border-color: var(--color-on-surface-variant);
+  }
+
+  .styling__media {
+    position: relative;
+  }
+
+  .styling__decoration {
+    position: absolute;
+    inset: -16px;
+    z-index: 0;
+    border-radius: var(--radius);
+    background: var(--color-surface-container-low);
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+  }
+
+  .styling__images {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .styling__image.image {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    height: auto;
+    background: var(--color-surface-container);
+  }
+
+  .styling__image.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .styling__image--offset {
+    margin-top: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .styling__grid {
+      grid-template-columns: repeat(12, 1fr);
+      align-items: center;
+      gap: calc(var(--spacing-gutter) * 2);
+    }
+
+    .styling__content {
+      grid-column: 2 / span 4;
+    }
+
+    .styling__eyebrow {
+      position: absolute;
+      left: -48px;
+      top: 0;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .styling__media {
+      grid-column: 7 / span 6;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.product_styling",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Styling"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Effortless Structure"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "<p>The versatility of this piece allows it to anchor both daytime tailoring and evening ensembles. Its architectural lines speak for themselves.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "Shop the look"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "t:labels.image"
+    }
+  ],
+  "presets": [{ "name": "t:general.product_styling" }]
+}
+{% endschema %}

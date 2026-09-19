@@ -9,5 +9,5 @@ Request review before next step
 - [x] Product Info Panel & Variant Picker (@docs/pdp/STEP-2.md)
 - [x] Cart Drawer Foundation (@docs/pdp/STEP-3.md)
 - [x] Add to Bag & Product Details Accordion (@docs/pdp/STEP-4.md)
-- [ ] "Effortless Structure" Styling / Editorial Section (@docs/pdp/STEP-5.md)
+- [x] "Effortless Structure" Styling / Editorial Section (@docs/pdp/STEP-5.md)
 - [ ] Locale, Schema, Accessibility & Responsive Polish (@docs/pdp/STEP-6.md)

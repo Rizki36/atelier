@@ -37,9 +37,14 @@
         "care-instructions"
       ],
       "settings": {}
+    },
+    "styling": {
+      "type": "product-styling",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "styling"
   ]
 }

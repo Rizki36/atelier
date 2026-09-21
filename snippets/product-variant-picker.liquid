@@ -31,7 +31,9 @@
         <p class="variant-picker__label text-label-caps">
           {{ option.name }}
           {% if is_color %}
-            <span class="variant-picker__selected-value" data-variant-selected-value>{{ current_variant.options[option_index] }}</span>
+            <span class="variant-picker__selected-value" data-variant-selected-value>
+              {{- current_variant.options[option_index] -}}
+            </span>
           {% endif %}
         </p>
       </div>
@@ -76,7 +78,6 @@
   .variant-picker__option {
     margin-bottom: var(--spacing-unit);
     padding-bottom: calc(var(--spacing-unit) * 4);
-    border-bottom: 1px solid var(--color-outline-variant);
   }
 
   .variant-picker__label-row {
@@ -188,7 +189,9 @@
     const optionGroups = Array.from(picker.querySelectorAll('[data-variant-option]'));
     const selected = optionGroups.map((group) => {
       const active = group.querySelector('.variant-picker__value-button.is-active');
-      return active ? active.dataset.optionValue : group.querySelector('.variant-picker__value-button').dataset.optionValue;
+      return active
+        ? active.dataset.optionValue
+        : group.querySelector('.variant-picker__value-button').dataset.optionValue;
     });
 
     const form = picker.closest('.product-form') || document.querySelector('.product-form');
@@ -204,8 +207,12 @@
 
       if (variant.compareAtPrice) {
         priceEl.innerHTML =
-          '<span class="product__price-sale" data-price-sale>' + variant.price + '</span>' +
-          '<span class="product__price-compare" data-price-compare>' + variant.compareAtPrice + '</span>';
+          '<span class="product__price-sale" data-price-sale>' +
+          variant.price +
+          '</span>' +
+          '<span class="product__price-compare" data-price-compare>' +
+          variant.compareAtPrice +
+          '</span>';
       } else {
         priceEl.innerHTML = '<span data-price-regular>' + variant.price + '</span>';
       }
